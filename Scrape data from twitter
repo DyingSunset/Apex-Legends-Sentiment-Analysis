@@ -1,4 +1,4 @@
-#First step I created total data pool from the twitter
+#STEP 1 IS TO CREATE THE DATA POOL IN ORDER TO GET A RANDOM SAMPLE FOR STEP 2
 
 from twitterscraper import query_tweets
 import datetime as dt
@@ -19,7 +19,10 @@ df_begining.to_csv(r'C:\sample total data\apexlegends releasing data.csv')
 
 #Pick a random sample in the CSV file through Microsoft Excel
 
-#Second step is to use the sample to find these user's information
+
+
+
+#STEP 2 IS TO USE THE SAMPLE TO FIND THESE USER'S INFORMATION
 
 from twitterscraper.query import query_user_info
 import pandas as pd
@@ -116,7 +119,11 @@ if __name__ == '__main__':
 
     main()
 
-#Third step is to analyze the sentiment of these user's content by textlob
+
+
+
+
+#STEP 3 IS TO ANALYZE THE SENTIMENT OF THESE USER'S CONTENT BY TEXTLOB 
 
 from textblob import TextBlob
 testimonial1 = TextBlob("LOVE THIS GAME #ApexLegends #ApexLegendsBattleRoyale  love this heckin game!!!")
