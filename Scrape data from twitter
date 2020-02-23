@@ -2,15 +2,9 @@ from twitterscraper import query_tweets
 import datetime as dt
 import pandas as pd
 
-
 begin_date = dt.date(2019,2,4)
 end_date = dt.date(2019,2,7)
 
-
-
 tweets_begining = query_tweets("#apexlegends",begindate = begin_date, enddate = end_date, limit = 20000000)
-
-    
 df_begining = pd.DataFrame(t.__dict__ for t in tweets_begining)
-
 df_begining.to_csv(r'C:\sample total data\apexlegends releasing data.csv')
