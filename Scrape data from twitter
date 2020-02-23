@@ -1,3 +1,5 @@
+#First step I created total data pool from the twitter
+
 from twitterscraper import query_tweets
 import datetime as dt
 import pandas as pd
@@ -14,3 +16,165 @@ tweets_begining = query_tweets("#apexlegends",begindate = begin_date, enddate = 
 df_begining = pd.DataFrame(t.__dict__ for t in tweets_begining)
 
 df_begining.to_csv(r'C:\sample total data\apexlegends releasing data.csv')
+
+#Pick a random sample in the CSV file through Microsoft Excel
+
+#Second step is to use the sample to find these user's information
+from twitterscraper.query import query_user_info
+import pandas as pd
+from multiprocessing import Pool
+import time
+from IPython.display import display
+
+
+global twitter_user_info
+
+twitter_user_info=[]
+
+
+def get_user_info(twitter_user):
+
+
+    user_info = query_user_info(user= twitter_user)
+    twitter_user_data = {}
+    twitter_user_data["user"] = user_info.user
+    twitter_user_data["fullname"] = user_info.full_name
+    twitter_user_data["location"] = user_info.location
+    twitter_user_data["blog"] = user_info.blog
+    twitter_user_data["date_joined"] = user_info.date_joined
+    twitter_user_data["id"] = user_info.id
+    twitter_user_data["num_tweets"] = user_info.tweets
+    twitter_user_data["following"] = user_info.following
+    twitter_user_data["followers"] = user_info.followers
+    twitter_user_data["likes"] = user_info.likes
+    twitter_user_data["lists"] = user_info.lists
+
+    return twitter_user_data
+
+def main():
+    start = time.time()
+
+    users = ['Alk_Live',
+'penguin3693',
+'Latapoxy1',
+'Faluhcy',
+'benji2995',
+'Ma5ico',
+'iBrener',
+'XeinWins',
+'DjCrawfordDnB',
+'JackdawJournal',
+'TheOsternShow',
+'TribecaReview',
+'xStrains',
+'_Nerkz',
+'albitrogaming',
+'y_k_787',
+'dawidmaron',
+'emo_Rijenun',
+'ciaranhammondk',
+'TGN_TANK',
+'EbenerPlayBr',
+'solidexo86',
+'WyattFossett',
+'CAMIKAZE78',
+'CookieMonsterMD',
+'ArsenaLouu',
+'ChannZiLLaTV',
+'FeverPyretic',
+'itsalexmacaulay',
+'Saxonous']
+
+    pool = Pool(300)    
+
+    for user in pool.map(get_user_info,users):
+
+        twitter_user_info.append(user)
+
+
+
+    cols=['id','fullname','date_joined','location','blog', 'num_tweets','following','followers','likes','lists']
+
+    data_frame = pd.DataFrame(twitter_user_info, index=users, columns=cols)
+
+    data_frame.index.name = "Users"
+
+    data_frame.sort_values(by="followers", ascending=False, inplace=True, kind='quicksort', na_position='last')
+
+    elapsed = time.time() - start
+
+    print(f"Elapsed time: {elapsed}")
+
+    display(data_frame)
+
+    
+
+
+
+if __name__ == '__main__':
+
+    main()
+
+#Third step is to analyze the sentiment of these user's content by textlob
+from textblob import TextBlob
+testimonial1 = TextBlob("LOVE THIS GAME #ApexLegends #ApexLegendsBattleRoyale  love this heckin game!!!")
+testimonial1.sentiment
+Sentiment(polarity=-0.045312500000000006, subjectivity=0.5)
+
+
+testimonial2 = TextBlob("So tired of more Battle Royale games already #ApexLegends")
+testimonial2.sentiment
+Sentiment(polarity=0.04999999999999999, subjectivity=0.6)
+
+testimonial3 = TextBlob("Let's play some #ApexLegends. Happy Chinese New Years Eve everyone ;D")
+testimonial3.sentiment
+Sentiment(polarity=0.2965909090909091, subjectivity=0.6136363636363636)
+
+
+testimonial4 = TextBlob("Watch me play new game that all the cool hip gamers are playing #ApexLegends https://www.twitch.tv/warlockk_tv??")
+testimonial4.sentiment
+Sentiment(polarity=0.02878787878787877, subjectivity=0.5015151515151515)
+
+testimonial5 = TextBlob("I just finished my first game of #ApexLegends (0 kills and having no idea what I'm doing, of course)! It was really fun despite having to play on the lowest settings. I was already considering replacing my 4 year old PC soon.")
+testimonial5.sentiment
+Sentiment(polarity=0.0375, subjectivity=0.2833333333333333)
+
+testimonial6 = TextBlob("Love how much you can customize the banners! #ApexLegends #Lifelinepic.twitter.com/zTdPA68oGY")
+testimonial6.sentiment
+Sentiment(polarity=0.375, subjectivity=0.4)
+
+testimonial7 = TextBlob("@Respawn Will #ApexLegends ever have a Solo Mode i really want to play but have zero interest in playing with randoms.")
+testimonial7.sentiment
+Sentiment(polarity=0.2, subjectivity=0.2)
+
+testimonial8 = TextBlob("I never thought I'd say this, but @electronicarts @Respawn have totally nailed it. #ApexLegends is phenomenal. #ps4")
+testimonial8.sentiment
+Sentiment(polarity=0.25, subjectivity=0.625)
+
+testimonial9 = TextBlob("All I want to do is play more #ApexLegends and the squad is nowhere to be found...stream at 7.")
+testimonial9.sentiment
+Sentiment(polarity=0.5, subjectivity=0.5)
+
+testimonial10 = TextBlob("Playing some #ApexLegends come vibe with ya boi! http://twitch.tv/itsjuicyjonah?? @TheRoseGG")
+testimonial10.sentiment
+Sentiment(polarity=0.0, subjectivity=0.0)
+
+testimonial11 = TextBlob("Imagine if @FortniteGame had rewards for winning games etc like #ApexLegends , this is what we need!")
+testimonial11.sentiment
+Sentiment(polarity=0.625, subjectivity=0.75)
+
+testimonial12 = TextBlob("Giving this #ApexLegends a go and may even do a video on it if I enjoy pic.twitter.com/hz2iJPYGuT")
+testimonial12.sentiment
+Sentiment(polarity=0.4, subjectivity=0.5)
+
+testimonial13 = TextBlob("#ApexLegend was fantastic!! Great first day! Be back tomorrow for more! @Respawn @GamerAvenue #twitchstreaming #ApexLegends")
+testimonial13.sentiment
+Sentiment(polarity=0.4725, subjectivity=0.4966666666666667)
+
+testimonial14 = TextBlob("Sooo should I play Apex Legends?  Idk if I should bc I won?€?t get that many views . Also if I do play it who?€?s wanting to squad up on pc?  #ApexLegends #BattleRoyale #twitch #TwitchAffilate #SmallStreamersMatter #smallstreamercommunity")
+testimonial14.sentiment
+Sentiment(polarity=0.5, subjectivity=0.5)
+
+testimonial15 = TextBlob("Another day at work but TONIGHT! #SmallStreamersMatter #RoadToAffiliate #twitch #twitchtv #ApexLegends #ApexLegend #Bangolorepic.twitter.com/dzvo1zzhY7")
+testimonial15.sentiment
+Sentiment(polarity=0.0, subjectivity=0.0)
