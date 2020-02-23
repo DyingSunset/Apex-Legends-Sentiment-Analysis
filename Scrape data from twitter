@@ -20,6 +20,7 @@ df_begining.to_csv(r'C:\sample total data\apexlegends releasing data.csv')
 #Pick a random sample in the CSV file through Microsoft Excel
 
 #Second step is to use the sample to find these user's information
+
 from twitterscraper.query import query_user_info
 import pandas as pd
 from multiprocessing import Pool
@@ -116,6 +117,7 @@ if __name__ == '__main__':
     main()
 
 #Third step is to analyze the sentiment of these user's content by textlob
+
 from textblob import TextBlob
 testimonial1 = TextBlob("LOVE THIS GAME #ApexLegends #ApexLegendsBattleRoyale  love this heckin game!!!")
 testimonial1.sentiment
